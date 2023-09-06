@@ -18,10 +18,6 @@ public class ConsumoApi {
 
     HttpClient client = new HttpClient();
     public ConsumoApi(){
-        var username = "gfanha";
-        var pass = "!Aleixo1465.";
-        var proxyHost = "172.19.100.75";
-        int port = 8081;
 
 
         HostConfiguration config = client.getHostConfiguration();
