@@ -11,41 +11,39 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import static javax.xml.crypto.dsig.Transform.BASE64;
-
+@Component
 public class ConsumoApi {
+
+    @Value("${proxy.username}")
+    String username;
+    @Value("${proxy.pass}")
+    String pass;
+
+    @Value("${proxy.host}")
+    String proxyHost;
+    @Value("${proxy.port}")
+    int port;
+
 
     HttpClient client = new HttpClient();
     public ConsumoApi(){
 
 
-        HostConfiguration config = client.getHostConfiguration();
-        config.setProxy(proxyHost,port);
-
-        Credentials credentials = new UsernamePasswordCredentials(username,pass);
-        AuthScope authScope = new AuthScope(proxyHost,port);
-
-        client.getState().setProxyCredentials(authScope,credentials);
 
     }
     public String obterDados(String endereco) {
 
+            HostConfiguration config = client.getHostConfiguration();
+            config.setProxy(proxyHost,port);
 
+            Credentials credentials = new UsernamePasswordCredentials(username,pass);
+            AuthScope authScope = new AuthScope(proxyHost,port);
 
-//        //Config Proxy
-//        //true para passar pelo servidor proxy
-//        System.setProperty("proxySet", "true");
-//
-//        //IP ou nome do servidor proxy
-//        System.setProperty("http.proxyHost", proxyHost);
-//
-//        //Porta do proxy
-//        System.setProperty("http.proxyPort", String.valueOf(port));
-//
-//        System.setProperty("http.proxyUser", username);
-//        System.setProperty("http.proxyPassword", pass);
-
+            client.getState().setProxyCredentials(authScope,credentials);
 
 
         HttpMethod method = new GetMethod(endereco);
@@ -65,20 +63,6 @@ public class ConsumoApi {
             throw new RuntimeException(e);
         }
 
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(endereco))
-//                .build();
-//        HttpResponse<String> response = null;
-//        try {
-//            response = client
-//                    .send(request, HttpResponse.BodyHandlers.ofString());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-
-        
         return response;
     }
 
